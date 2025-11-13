@@ -12,8 +12,15 @@ module.exports = {
 // return all messages from the cache
 async function list (req, res) {
   try {
-    const data = await cache.listAllKeys();
+    const keys = await cache.listAllKeys();
     const message = `Found ${data.length} messages matching your query.`;
+    
+    const data = [];
+    for (let key of keys) {
+      const jsonStr = await cache.getDataByKey({ key });
+      data.push(JSON.parse(jsonStr));
+    }
+
     respond(req, res).ok({ message, data });
   } catch (error) {
     handleError(req, res, error);
@@ -25,13 +32,13 @@ async function getById (req, res) {
   try {
     const { message_id } = req.params;
     const key = `message:${message_id}`;
-    const data = await cache.getDataByKey({ key });
+    const jsonStr = await cache.getDataByKey({ key });
 
-    if (!data) {
+    if (!jsonStr) {
       const message = `Message with id: ${message_id} not found.`;
       return respond(req, res).notFound({ message });
     }
-
+    const data = JSON.parse(jsonStr);
     const message = `Found message with id: ${message_id}`;
     respond(req, res).ok({ message, data });
   } catch (error) {
