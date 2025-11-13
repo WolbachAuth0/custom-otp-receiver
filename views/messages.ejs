@@ -1,9 +1,9 @@
 <%- include('partials/header') -%>
 
 <main>
-  <div class="container pt-4">
+  <div class="container pt-4 bg-secondary">
 
-    <div class="card border-success bg-light mb-3">
+    <div class="card border-light mb-3">
       <div class="card-body">
         
         <h4 class="card-title text-primary mb-4">
@@ -15,9 +15,11 @@
         <div class="card border-info mb-3">
           <div class="card-header">To: <%= message.recipient %></div>
           <div class="card-body">
-            <p class="card-text text-info">message_id: <%= message.message_id %></p>
             <h4 class="card-title text-success"><%= message.body %></h4>
           </div>
+          <div class="card-footer text-muted">
+            message_id: <%= message.message_id %>, timestamp: <%= new Date(message.timestamp).toLocaleString() %>
+          </div> 
         </div>
 <%   } %>
 
