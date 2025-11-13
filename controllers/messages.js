@@ -18,7 +18,9 @@ async function list (req, res) {
     const data = [];
     for (let key of keys) {
       const jsonStr = await cache.getDataByKey({ key });
-      data.push(JSON.parse(jsonStr));
+      const message_id = key.split(':')[1];
+      const msg = Object.assign({ message_id }, JSON.parse(jsonStr));     
+      data.push(msg);
     }
 
     respond(req, res).ok({ message, data });
@@ -38,7 +40,7 @@ async function getById (req, res) {
       const message = `Message with id: ${message_id} not found.`;
       return respond(req, res).notFound({ message });
     }
-    const data = JSON.parse(jsonStr);
+    const data = Object.assign({ message_id }, JSON.parse(jsonStr));
     const message = `Found message with id: ${message_id}`;
     respond(req, res).ok({ message, data });
   } catch (error) {

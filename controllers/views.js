@@ -52,8 +52,16 @@ function handleError (req, res, error) {
 async function messages (req, res) {
   try {
     // fetch sms messages from queue
-    const messages = await cache.listAllKeys();
-    console.log('messages:', messages);
+    const keys = await cache.listAllKeys();
+    
+    const messages = [];
+    for (let key of keys) {
+      const jsonStr = await cache.getDataByKey({ key });
+      const message_id = key.split(':')[1];
+      const message = Object.assign({ message_id }, JSON.parse(jsonStr));
+      messages.push(message)
+    }
+
     // send data to template and render
     const data = {
       messages
