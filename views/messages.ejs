@@ -1,7 +1,8 @@
 <%- include('partials/header') -%>
 
 <main>
-  <div class="container py-4 bg-secondary">
+  
+  <div class="container py-4 mt-4">
 
     <div class="card border-primary bg-light mb-3">
       <div class="card-body">
@@ -12,13 +13,16 @@
         </h4>
 
 <%   for (let message of messages) { %>
-        <div class="card border-info mb-3">
+        <div class="card border-primary mb-3">
           <div class="card-header">To: <%= message.recipient %></div>
+
           <div class="card-body">
-            <h4 class="card-title text-success"><%= message.body %></h4>
+            <h4 class="card-title text-primary"><%= message.body %></h4>
           </div>
-          <div class="card-footer text-muted">
-            message_id: <%= message.message_id %>, timestamp: <%= new Date(message.timestamp).toLocaleString() %>
+
+          <div class="card-footer text-muted clearfix text-start">
+            <span> message_id: <%= message.message_id %> </span>
+            <span class="float-end">timestamp: <%= new Date(message.timestamp).toLocaleString() %></span>
           </div> 
         </div>
 <%   } %>
