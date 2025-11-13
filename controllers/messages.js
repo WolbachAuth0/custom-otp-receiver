@@ -13,7 +13,7 @@ module.exports = {
 async function list (req, res) {
   try {
     const keys = await cache.listAllKeys();
-    const message = `Found ${data.length} messages matching your query.`;
+    const message = `Found ${keys.length} messages matching your query.`;
     
     const data = [];
     for (let key of keys) {
