@@ -1,6 +1,5 @@
 const path = require('path')
 
-
 // import the env variables FIRST - Before you do anything else
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config({ path: path.join(__dirname, './.env') });
