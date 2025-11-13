@@ -46,7 +46,7 @@ async function create (req, res) {
     const key = `message:${uuid}`;
     const ttl = 3600;
     const message = `Created new message with id: ${uuid}.`;
-    const response = await cache.setDataByKey({ key, ttl, data: req.body });
+    const data = await cache.setDataByKey({ key, ttl, data: req.body });
     respond(req, res).created({ message, data });
   } catch (error) {
     handleError(req, res, error);
@@ -64,3 +64,34 @@ async function remove (req, res) {
     handleError(req, res, error);
   }
 }
+
+/*
+event.notification
+
+Includes the following properties:
+
+from String. The E.164 compliant phone number for the sender.
+
+locale String. The locale we rendered the message in, for example en_US, as defined in the BCP-47 specification.
+
+message_type String.
+The type of message that is being sent, like otp_verify or blocked_account.
+
+Possible values include:
+
+otp_verify
+otp_enroll
+blocked_account
+change_password
+password_breach
+
+recipient String. The E.164 compliant phone number for the recipient.
+
+delivery_method Enum. The way the message should be delivered. Could be text or voice.
+
+code String. The One-Time Password for some message_types (e.g. otp_verify, otp_enroll).
+
+as_text String. The rendered text ready to be delivered as a text message.
+
+as_voice String. The rendered text ready to be delivered as a voice text message.
+*/
