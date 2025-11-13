@@ -13,6 +13,7 @@ const { logger } = require('./Logger')
  */
 class Cache {
   constructor () {
+    
     const client = createClient({
       password: process.env.REDIS_PASSWORD,
       socket: {
