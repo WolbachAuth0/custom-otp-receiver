@@ -61,6 +61,7 @@ async function messages (req, res) {
       const message = Object.assign({ message_id }, JSON.parse(jsonStr));
       messages.push(message)
     }
+    messages.sort((a, b) => b.timestamp - a.timestamp);
 
     // send data to template and render
     const data = {
