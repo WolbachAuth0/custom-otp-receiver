@@ -9,8 +9,8 @@
       <div class="card border-info mb-3">
         <div class="card-header">To: <%= message.recipient %></div>
         <div class="card-body">
-          <p class="card-text">ID: <%= message.message_id %></p>
-          <h4 class="card-title"><%= message.body %></h4>
+          <p class="card-text text-danger">message_id: <%= message.message_id %></p>
+          <h4 class="card-title text-success"><%= message.body %></h4>
         </div>
       </div>
       <%   } %>
