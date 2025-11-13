@@ -10,18 +10,20 @@
           <i class="bi bi-chat fs-1 text-success"></i>
           Messages
         </h4>
+
+<%   for (let message of messages) { %>
+        <div class="card border-info mb-3">
+          <div class="card-header">To: <%= message.recipient %></div>
+          <div class="card-body">
+            <p class="card-text text-info">message_id: <%= message.message_id %></p>
+            <h4 class="card-title text-success"><%= message.body %></h4>
+          </div>
+        </div>
+<%   } %>
+
       </div>
     </div>
 
-<%   for (let message of messages) { %>
-    <div class="card border-info mb-3">
-      <div class="card-header">To: <%= message.recipient %></div>
-      <div class="card-body">
-        <p class="card-text text-info">message_id: <%= message.message_id %></p>
-        <h4 class="card-title text-success"><%= message.body %></h4>
-      </div>
-    </div>
-<%   } %>
   </div>
 </main>
 
