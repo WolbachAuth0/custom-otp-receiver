@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/oauth');
+const validate = require('./../middleware/schemaValidator');
 
 module.exports = router;
 
@@ -13,5 +14,6 @@ module.exports = router;
 router
   .route('/token')
   .post(
+    validate(controller.schema.tokenRequest),
     controller.token
   );

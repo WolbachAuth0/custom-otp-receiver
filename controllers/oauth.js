@@ -2,7 +2,16 @@ const http = require('axios')
 const { respond } = require('../middleware/responseFormatter')
 
 module.exports = {
-  token
+  token,
+  schema: {
+    tokenRequest: {
+      type: 'object',
+      properties: {
+        client_id: { type: 'string' },
+        client_secret: { type: 'string' }
+      }
+    }
+  }
 }
 
 function handleError (req, res, error) {

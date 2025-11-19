@@ -31,7 +31,8 @@ app.use('/assets', serveStatic(path.join(__dirname, './public')));
 
 // Routes
 app.use('/', require('./routes/views'));
-app.use('/api', require('./routes/messages'));
+app.use('/api/messages', require('./routes/messages'));
+app.use('/oauth', require('./routes/oauth'))
 
 // override express error handler
 app.use('/', require('./routes/errors'));
