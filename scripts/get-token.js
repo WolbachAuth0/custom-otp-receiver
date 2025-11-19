@@ -9,9 +9,9 @@ getToken()
 async function getToken () {
   const request = {
     method: 'post',
-    url: `https://${process.env.AUTH0_DOMAIN}/oauth/token`,
+    url: `${process.env.AUTH0_DOMAIN}/oauth/token`,
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json',
       'Accept': 'application/json'
     },
     data: new URLSearchParams({
