@@ -5,13 +5,13 @@
   "main": "server.js",
   "scripts": {
     "start": "node start.js",
-    "dev": "nodemon dev-server.js"
+    "dev": "nodemon dev-server.js",
+    "send-message": "node ./scripts/send-message.js"
   },
   "homepage": "https://phone-provider-front-c073ec7a7735.herokuapp.com",
   "author": "aaron.wolbach@okta.com",
   "license": "MIT",
   "dependencies": {
-    "axios": "^1.11.0",
     "bootstrap-icons": "^1.13.1",
     "cors": "^2.8.5",
     "ejs": "^3.1.10",
@@ -27,6 +27,7 @@
     "winston": "^3.17.0"
   },
   "devDependencies": {
+    "axios": "^1.13.2",
     "dotenv": "^17.2.2",
     "jsonfile": "^6.2.0",
     "nodemon": "^3.1.10"
