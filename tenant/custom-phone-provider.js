@@ -9,6 +9,7 @@ exports.onExecuteCustomPhoneProvider = async (event, api) => {
   const url = 'https://otp.awolcustomdemos.com/api/messages'
   const now = new Date();
   const body = {
+      tenant: event.tenant.id,
       recipient: event.notification.recipient,
       body: event.notification.as_text,
       sender:"+1 234 567 8910",

@@ -14,7 +14,10 @@
 
 <%   for (let message of messages) { %>
         <div class="card border-primary mb-3">
-          <div class="card-header">To: <%= message.recipient %></div>
+          <div class="card-header clearfix text-start">
+            To: <%= message.recipient %>
+            <span class="float-end"> From: <%= message?.tenant %> </span>
+          </div>
 
           <div class="card-body">
             <h4 class="card-title text-primary"><%= message.body %></h4>
