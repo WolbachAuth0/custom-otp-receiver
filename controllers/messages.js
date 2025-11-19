@@ -87,11 +87,14 @@ async function create (req, res) {
 // remove a message from the cache
 async function remove (req, res) {
   try {
+    
     const { message_id } = req.params;
+    console.log('attempting to delete key:', message_id);
     const data = cache.deleteKeys({ keys: [`message:${message_id}`] });
     const message = `Deleted message with id:${message_id}`;
     respond(req, res).ok({ message, data })
   } catch (error) {
+    console.log(error)
     handleError(req, res, error);
   }
 }
