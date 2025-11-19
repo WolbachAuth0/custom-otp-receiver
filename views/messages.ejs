@@ -15,8 +15,14 @@
 <%   for (let message of messages) { %>
         <div class="card border-primary mb-3">
           <div class="card-header clearfix text-start">
-            <span class="text-success">To: <%= message.recipient %></span>
-            <span class="text-primary-emphasis float-end"> From: <%= message?.tenant %> </span>
+            <span class="text-success">
+              <span class="strong">TO:</span>
+              <%= message.recipient %>
+            </span>
+            <span class="text-primary-emphasis float-end">
+              <span class="strong">From:</span>
+              <%= message?.tenant %>
+            </span>
           </div>
 
           <div class="card-body">
@@ -24,8 +30,10 @@
           </div>
 
           <div class="card-footer clearfix text-start">
-            <span class="text-muted">timestamp: <%= new Date(message.timestamp).toLocaleString() %></span>
-            <span class="text-muted float-end"> message_id: <%= message.message_id %> </span>
+            <span class="text-muted">
+              <%= new Date(message.timestamp).toLocaleString() %>
+              <span class="float-end"> message_id: <%= message.message_id %> </span>
+            </span>
           </div> 
         </div>
 <%   } %>
