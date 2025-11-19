@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/messages');
-// const { verifyJWT, checkJWTScopes } = require('../middleware/auth');
+const { verifyJWT, checkJWTScopes } = require('../middleware/auth');
 const validate = require('./../middleware/schemaValidator');
 
 const options = {
@@ -13,25 +13,26 @@ const options = {
 module.exports = router
 
 router
-  .route('/messages')
-  // .all(verifyJWT)
-  .get(
-    // checkJWTScopes(['read:messages'], options),
-    controller.list
-  )
+  .route('/')
+  // .get(
+  //   verifyJWT,
+  //   checkJWTScopes(['read:messages'], options),
+  //   controller.list
+  // )
   .post(
     // checkJWTScopes(['create:messages'], options),
+    validate(controller.schema.message),
     controller.create
   )
 
 router
-  .route('/messages/:message_id')
-  // .all(verifyJWT)
+  .route('/:message_id')
+  .all(verifyJWT)
   .get(
-    // checkJWTScopes(['read:messages'], options),
+    checkJWTScopes(['read:messages'], options),
     controller.getById
   )
   .delete(
-    // checkJWTScopes(['delete:messages'], options),
+    checkJWTScopes(['delete:messages'], options),
     controller.remove
   )

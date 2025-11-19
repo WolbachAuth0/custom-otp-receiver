@@ -1,11 +1,11 @@
-const path = require('path');
+// const path = require('path');
 const cache = require('../models/Cache');
-const { respond, httpCodes } = require('../middleware/responseFormatter');
+const { httpCodes } = require('../middleware/responseFormatter');
 
 module.exports = {
   messages,
-  docs,
-  specification
+  // docs,
+  // specification
 }
 
 function handleError (req, res, error) {
@@ -73,13 +73,13 @@ async function messages (req, res) {
   }
 }
 
-function docs (req, res) {
-  res.sendFile(path.join(__dirname, './../views/redoc.html'))
-}
+// function docs (req, res) {
+//   res.sendFile(path.join(__dirname, './../views/redoc.html'))
+// }
 
-function specification (req, res) {
-  const message = 'OpenAPI 3.0 specification for the Quotations API.'
-  const data = require('../data/openapi.json')
-  respond(req, res).ok({ message, data }) 
-}
+// function specification (req, res) {
+//   const message = 'OpenAPI 3.0 specification for the Quotations API.'
+//   const data = require('../data/openapi.json')
+//   respond(req, res).ok({ message, data }) 
+// }
 
