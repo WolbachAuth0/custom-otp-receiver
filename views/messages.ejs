@@ -15,17 +15,17 @@
 <%   for (let message of messages) { %>
         <div class="card border-primary mb-3">
           <div class="card-header clearfix text-start">
-            To: <%= message.recipient %>
-            <span class="float-end"> From: <%= message?.tenant %> </span>
+            <span class="text-success">To: <%= message.recipient %></span>
+            <span class="text-primary-emphasis float-end"> From: <%= message?.tenant %> </span>
           </div>
 
           <div class="card-body">
             <h4 class="card-title text-primary"><%= message.body %></h4>
           </div>
 
-          <div class="card-footer text-muted clearfix text-start">
-            <span>timestamp: <%= new Date(message.timestamp).toLocaleString() %></span>
-            <span class="float-end"> message_id: <%= message.message_id %> </span>
+          <div class="card-footer clearfix text-start">
+            <span class="text-muted">timestamp: <%= new Date(message.timestamp).toLocaleString() %></span>
+            <span class="text-muted float-end"> message_id: <%= message.message_id %> </span>
           </div> 
         </div>
 <%   } %>
