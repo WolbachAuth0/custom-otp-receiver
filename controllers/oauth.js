@@ -52,7 +52,7 @@ async function getM2MToken ({ client_id, client_secret }) {
     method: 'post',
     url: `${process.env.AUTH0_DOMAIN}/oauth/token`,
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
       'Accept': 'application/json'
     },
     data: new URLSearchParams({
