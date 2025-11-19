@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node start.js",
-    "dev": "nodemon dev-server.js",
+    "dev": "nodemon start-dev.js",
     "send-message": "node ./scripts/send-message.js"
   },
   "homepage": "https://phone-provider-front-c073ec7a7735.herokuapp.com",

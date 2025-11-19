@@ -4,6 +4,8 @@ const path = require('path')
 require('dotenv').config({ path: path.join(__dirname, './../.env') });
 
 const axios = require('axios');
+// const baseURL = 'https://otp.awolcustomdemos.com'
+const baseURL = 'http://localhost:3000'
 
 sendMessage()
 
