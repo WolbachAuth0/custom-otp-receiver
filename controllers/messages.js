@@ -45,7 +45,7 @@ async function list (req, res) {
   }
 }
 
-// retrieve a message from the cache
+// retrieve a specific message from the cache
 async function getById (req, res) {
   try {
     const { message_id } = req.params;
@@ -97,4 +97,3 @@ async function remove (req, res) {
     handleError(req, res, error);
   }
 }
-
