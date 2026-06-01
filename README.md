@@ -1,4 +1,4 @@
-# phone-provider-front
+# Custom OTP Receiver API
 
 A web app for displaying SMS messages.
 
