@@ -4,9 +4,78 @@ const { httpCodes } = require('../middleware/responseFormatter');
 
 module.exports = {
   messages,
+  tenants,
   // docs,
   // specification
 }
+
+async function tenants (req, res) {
+  try {
+    // fetch sms messages from queue
+    const found = await getMessagesFromCache();
+
+    const tenants = [...new Set(found.map(m => m.tenant))]
+
+    // send data to template and render
+    const data = {
+      tenants
+    }
+    res.render('tenants', data);
+  } catch (error) {
+    handleError(req, res, error);
+  }
+}
+
+async function messages (req, res) {
+  try {
+    // fetch sms messages from queue
+    const found = await getMessagesFromCache();
+
+    let messages = []
+    if (req?.params?.tenant_name) {
+      const tenant_name = req.params.tenant_name;
+      messages = found.filter(m => m.tenant == tenant_name);
+    } else {
+      messages = found;
+    }
+
+    // send data to template and render
+    const data = {
+      messages
+    }
+    res.render('messages', data);
+  } catch (error) {
+    handleError(req, res, error);
+  }
+}
+
+// function docs (req, res) {
+//   res.sendFile(path.join(__dirname, './../views/redoc.html'))
+// }
+
+// function specification (req, res) {
+//   const message = 'OpenAPI 3.0 specification for the Quotations API.'
+//   const data = require('../data/openapi.json')
+//   respond(req, res).ok({ message, data }) 
+// }
+
+// HELPER FUNCTIONS
+
+async function getMessagesFromCache () {
+  // fetch sms messages from queue
+  const keys = await cache.listAllKeys();
+  
+  const messages = [];
+  for (let key of keys) {
+    const jsonStr = await cache.getDataByKey({ key });
+    const message_id = key.split(':')[1];
+    const message = Object.assign({ message_id }, JSON.parse(jsonStr));
+    messages.push(message)
+  }
+  messages.sort((a, b) => b.timestamp - a.timestamp);
+  return messages;
+}
+
 
 function handleError (req, res, error) {
   let statusCode = 500 // default
@@ -48,38 +117,3 @@ function handleError (req, res, error) {
   data.error = error
   res.render('error', data)
 }
-
-async function messages (req, res) {
-  try {
-    // fetch sms messages from queue
-    const keys = await cache.listAllKeys();
-    
-    const messages = [];
-    for (let key of keys) {
-      const jsonStr = await cache.getDataByKey({ key });
-      const message_id = key.split(':')[1];
-      const message = Object.assign({ message_id }, JSON.parse(jsonStr));
-      messages.push(message)
-    }
-    messages.sort((a, b) => b.timestamp - a.timestamp);
-
-    // send data to template and render
-    const data = {
-      messages
-    }
-    res.render('messages', data);
-  } catch (error) {
-    handleError(req, res, error);
-  }
-}
-
-// function docs (req, res) {
-//   res.sendFile(path.join(__dirname, './../views/redoc.html'))
-// }
-
-// function specification (req, res) {
-//   const message = 'OpenAPI 3.0 specification for the Quotations API.'
-//   const data = require('../data/openapi.json')
-//   respond(req, res).ok({ message, data }) 
-// }
-
