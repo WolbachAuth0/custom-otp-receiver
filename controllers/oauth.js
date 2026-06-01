@@ -1,5 +1,7 @@
 const http = require('axios')
-const { respond } = require('../middleware/responseFormatter')
+const cache = require('../models/Cache');
+const { respond } = require('../middleware/responseFormatter');
+const { logger } = require('../models/Logger');
 
 module.exports = {
   token,
@@ -27,6 +29,39 @@ function handleError (req, res, error) {
     respond(req, res).forbidden({ message, data })
   } else {
     respond(req, res).serverError(error)
+  }
+}
+
+async function getToken (req, res) {
+  // set the cache key to be the client_id + client_secret combination
+  // const key = `${req.body.client_id}:${req.body.client_secret}`
+  const key = req.body.client_id
+  let data = {}
+  let payload = {}
+  
+  try {
+    // try to get the token data from the REDIS cache
+    data = await cache.getDataByKey({ key })
+    if (!data) {
+      logger.info(`cache miss! key: ${key}`)
+      // if the data wasn't in the cache, then get a new token
+      const response = await getM2MToken(req.body)
+      // and cache it in REDIS
+      payload = response.data
+      cache.setDataByKey({ key, ttl: payload.expires_in, data: payload })
+      // flag the response as NOT from cache - FOR DEMO PURPOSE ONLY!
+      payload.fromCache = false
+    } else {
+      // we will return the payload to the requestor.
+      logger.info(`cache hit! key: ${key}`)
+      payload = JSON.parse(data)
+      // flag the response as from cache - FOR DEMO PURPOSE ONLY!
+      payload.fromCache = true
+    }
+
+    res.status(200).json(payload)
+  } catch (error) {
+    handleError(req, res, error)
   }
 }
 
