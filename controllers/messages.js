@@ -32,7 +32,6 @@ async function list (req, res) {
     const message = `Found ${keys.length} messages matching your query.`;
     respond(req, res).ok({ message, data });
   } catch (error) {
-    console.log(error);
     handleError(req, res, error);
   }
 }
