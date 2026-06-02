@@ -14,11 +14,11 @@ module.exports = router
 
 router
   .route('/')
-  // .get(
-  //   verifyJWT,
-  //   checkJWTScopes(['read:messages'], options),
-  //   controller.list
-  // )
+  .get(
+    verifyJWT,
+    checkJWTScopes(['read:messages'], options),
+    controller.list
+  )
   .post(
     // checkJWTScopes(['create:messages'], options),
     validate(controller.schema.message),
