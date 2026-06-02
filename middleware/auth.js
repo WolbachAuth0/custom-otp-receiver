@@ -16,7 +16,7 @@ const verifyJWT = jwt({
     jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`
   }),
   audience: process.env.AUDIENCE,
-  issuer: `https://${process.env.AUTH0_DOMAIN}/`,
+  issuer: [`https://${process.env.AUTH0_DOMAIN}/`, `https://${process.env.AUTH0_CUSTOM_DOMAIN}/`],
   algorithms: ['RS256']
 })
 
