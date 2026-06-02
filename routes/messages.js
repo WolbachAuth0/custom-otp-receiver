@@ -5,7 +5,7 @@ const { verifyJWT, checkJWTScopes } = require('../middleware/auth');
 const validate = require('./../middleware/schemaValidator');
 
 const options = {
-    customScopeKey: 'scope',
+    // customScopeKey: 'scope',
     failWithError: true
   }
 
