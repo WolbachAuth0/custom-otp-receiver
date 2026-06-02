@@ -85,7 +85,7 @@ async function token (req, res) {
 async function getM2MToken ({ client_id, client_secret }) {
   const request = {
     method: 'post',
-    url: `${process.env.AUTH0_CUSTOM_DOMAIN}/oauth/token`,
+    url: `https://${process.env.AUTH0_CUSTOM_DOMAIN}/oauth/token`,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Accept': 'application/json'
