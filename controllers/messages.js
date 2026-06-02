@@ -29,7 +29,7 @@ module.exports = {
 async function list (req, res) {
   try {
     const data = await getMessagesFromCache();
-    const message = `Found ${keys.length} messages matching your query.`;
+    const message = `Found ${data.length} messages matching your query.`;
     respond(req, res).ok({ message, data });
   } catch (error) {
     handleError(req, res, error);
