@@ -15,7 +15,7 @@ router
   .route('/')
   .get(
     verifyJWT,
-    checkJWTScopes(['read:messages'], options),
+    // checkJWTScopes(['read:messages'], options),
     controller.list
   )
   .post(
