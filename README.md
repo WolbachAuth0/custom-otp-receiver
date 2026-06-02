@@ -20,7 +20,7 @@ Used by `middleware/auth.js` to validate access tokens issued to the SPA.
 
 | Variable | Required | Description |
 | --- | --- | --- |
-| `AUTH0_DOMAIN` | yes | Auth0 tenant domain (e.g. `your-tenant.us.auth0.com`). Used to build the JWKS URI and the expected token issuer. |
+| `AUTH0_CUSTOM_DOMAIN` | yes | Auth0 tenant custom domain. Used to build the JWKS URI and the expected token issuer. |
 | `AUDIENCE` | yes | The API identifier (audience) configured in Auth0. Tokens must be issued for this audience. |
 
 ### Auth0 — Management API client
@@ -57,7 +57,7 @@ Used by `models/Cache.js`. Optimized for Redis Enterprise Cloud / Heroku.
 NODE_ENV=development
 NODE_TLS_REJECT_UNAUTHORIZED=0
 
-AUTH0_DOMAIN=your-tenant.us.auth0.com
+AUTH0_CUSTOM_DOMAIN=your-tenant-custom-domain
 AUDIENCE=https://your-api.example.com/api
 
 AUTH0_API_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
