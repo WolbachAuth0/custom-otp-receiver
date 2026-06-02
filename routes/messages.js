@@ -15,8 +15,8 @@ module.exports = router
 router
   .route('/')
   .get(
-    // verifyJWT,
-    // checkJWTScopes(['read:messages'], options),
+    verifyJWT,
+    checkJWTScopes(['read:messages'], options),
     controller.list
   )
   .post(
