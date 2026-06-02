@@ -32,7 +32,7 @@ async function list (req, res) {
     const message = `Found ${keys.length} messages matching your query.`;
     respond(req, res).ok({ message, data });
   } catch (error) {
-    logger.error(`Error fetching messages from cache: ${error.message}`);
+    console.log(error);
     handleError(req, res, error);
   }
 }
