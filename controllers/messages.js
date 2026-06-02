@@ -28,17 +28,8 @@ module.exports = {
 // return all messages from the cache
 async function list (req, res) {
   try {
-    const keys = await cache.listAllKeys();
+    const data = await getMessagesFromCache();
     const message = `Found ${keys.length} messages matching your query.`;
-    
-    const data = [];
-    for (let key of keys) {
-      const jsonStr = await cache.getDataByKey({ key });
-      const message_id = key.split(':')[1];
-      const msg = Object.assign({ message_id }, JSON.parse(jsonStr));     
-      data.push(msg);
-    }
-
     respond(req, res).ok({ message, data });
   } catch (error) {
     handleError(req, res, error);
@@ -96,4 +87,19 @@ async function remove (req, res) {
   } catch (error) {
     handleError(req, res, error);
   }
+}
+
+async function getMessagesFromCache () {
+  // fetch sms messages from queue
+  const keys = await cache.listAllKeys();
+  
+  const messages = [];
+  for (let key of keys) {
+    const jsonStr = await cache.getDataByKey({ key });
+    const message_id = key.split(':')[1];
+    const message = Object.assign({ message_id }, JSON.parse(jsonStr));
+    messages.push(message)
+  }
+  messages.sort((a, b) => b.timestamp - a.timestamp);
+  return messages;
 }
