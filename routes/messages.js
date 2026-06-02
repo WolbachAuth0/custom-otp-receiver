@@ -6,7 +6,6 @@ const validate = require('./../middleware/schemaValidator');
 
 const options = {
     customScopeKey: 'scope',
-    customUserKey: 'auth',
     failWithError: true
   }
 
