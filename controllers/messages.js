@@ -58,10 +58,10 @@ async function getById (req, res) {
 // recieve a message and add it to the cache
 async function create (req, res) {
   try {
-    const sub = req.auth?.sub;
     const uuid = uuidv4();
     const key = `message:${uuid}`;
     const ttl = 3600;
+    const sub = req.auth?.azp;
 
     const body = Object.assign(req.body, { sub });
     const result = await cache.setDataByKey({ key, ttl, data: req.body });
