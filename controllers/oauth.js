@@ -32,9 +32,14 @@ function handleError (req, res, error) {
   }
 }
 
-async function getToken (req, res) {
-  // set the cache key to be the client_id + client_secret combination
-  // const key = `${req.body.client_id}:${req.body.client_secret}`
+/**
+ * The /oauth/token endpoint is used to fetch an access token with client credentials.
+ * 
+ * @param {*} req Express.js request object
+ * @param {*} res Express.js response object
+ */
+async function token (req, res) {
+  // set the cache key to be the client_id
   const key = req.body.client_id
   let data = {}
   let payload = {}
@@ -59,24 +64,8 @@ async function getToken (req, res) {
       payload.fromCache = true
     }
 
-    res.status(200).json(payload)
-  } catch (error) {
-    handleError(req, res, error)
-  }
-}
-
-/**
- * The /oauth/token endpoint is used to fetch an access token with client credentials.
- * 
- * @param {*} req Express.js request object
- * @param {*} res Express.js response object
- */
-async function token (req, res) {
-  try {
-    const response = await getM2MToken(req.body)
     const message = 'Fetched access token from authorization server.'
-    const data = response.data
-    respond(req, res).ok({ message, data })
+    respond(req, res).ok({ message, data: payload })
   } catch (error) {
     handleError(req, res, error)
   }
