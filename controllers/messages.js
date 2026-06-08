@@ -58,7 +58,7 @@ async function getById (req, res) {
 // recieve a message and add it to the cache
 async function create (req, res) {
   try {
-    const sub = req.auth?.sub || req.body.tenant;
+    const sub = req.auth?.sub;
     const uuid = uuidv4();
     const key = `message:${uuid}`;
     const ttl = 3600;
