@@ -40,7 +40,7 @@ function handleError (req, res, error) {
  */
 async function token (req, res) {
   // set the cache key to be the client_id
-  const key = req.body.client_id
+  const key = `client_id:${req.body.client_id}`
   let data = {}
   let payload = {}
   
