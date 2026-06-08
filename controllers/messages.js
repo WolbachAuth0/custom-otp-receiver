@@ -94,8 +94,8 @@ async function remove (req, res) {
 
 async function getMessagesFromCache () {
   // fetch sms messages from queue
-  const keys = await cache.listAllKeys();
-  
+  const allkeys = await cache.listAllKeys();
+  const keys = allkeys.filter(key => key.split(':')[0] == 'message')
   const messages = [];
   for (let key of keys) {
     const jsonStr = await cache.getDataByKey({ key });
