@@ -20,7 +20,7 @@ router
     controller.list
   )
   .post(
-    checkJWTScopes(['create:messages'], options),
+    checkJWTScopes(['create:message'], options),
     validate(controller.schema.message),
     controller.create
   )
