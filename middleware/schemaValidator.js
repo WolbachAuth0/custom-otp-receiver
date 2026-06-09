@@ -1,4 +1,4 @@
-const responseFormatter = require('./responseFormatter')
+const { respond, handleError } = require('./../middleware/responseFormatter');
 const Validator = require('jsonschema').Validator
 const validator = new Validator()
 
@@ -13,8 +13,7 @@ module.exports = function (schema) {
       const status = 400
       const message = 'Request body does not match schema'
       const data = validation
-      const json = responseFormatter(req, res, { status, message, data })
-      res.status(status).json(json)
+      respond(req, res).badRequest({ message, data })
     }
   }
 }
