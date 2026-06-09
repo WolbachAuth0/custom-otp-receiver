@@ -12,7 +12,7 @@ const options = {
 
 module.exports = router
 
-router.route('/clients')
+router.route('/')
   .all(verifyJWT)
   .get(
     checkJWTScopes(['read:clients'], options),
@@ -24,7 +24,7 @@ router.route('/clients')
     controller.createM2MClient
   )
 
-router.route('/clients/:client_id')
+router.route('/:client_id')
   .all(verifyJWT)  
   .get(
     checkJWTScopes(['read:clients'], options),
