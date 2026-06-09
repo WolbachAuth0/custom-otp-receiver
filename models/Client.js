@@ -60,7 +60,7 @@ module.exports = {
 
   async function addClientToUser ({ user_id, }, { client_id, name }) {
     // get the user's app_metadata
-    const user = await management.users.get({ id: user_id });
+    const user = await management.users.get(user_id);
     const app_metadata = user.app_metadata;
 
     // get the list of the user's m2m clients. if none found, a new empty array
@@ -75,7 +75,7 @@ module.exports = {
       app_metadata.otp_clients = userClients;
     }
     // update the user's app_metadata
-    const response = await management.users.update({ id: user_id }, { app_metadata: app_metadata });
+    const response = await management.users.update(user_id, { app_metadata: app_metadata });
     return response
   }
 
