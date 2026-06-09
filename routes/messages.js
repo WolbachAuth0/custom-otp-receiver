@@ -25,6 +25,7 @@ router
     controller.create
   )
   .delete(
+    checkJWTScopes(['delete:messages'], options),
     controller.clear
   )
 
