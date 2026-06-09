@@ -1,4 +1,4 @@
-const { respond, handleError } = require('./../middleware/responseFormatter');
+const { respond, handleError } = require('./responseFormatter');
 const Validator = require('jsonschema').Validator
 const validator = new Validator()
 
