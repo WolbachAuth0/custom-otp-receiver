@@ -8,6 +8,7 @@ module.exports = {
   getById,
   create,
   remove,
+  clear,
   schema: {
     message: {
       type: 'object',
@@ -87,6 +88,15 @@ async function remove (req, res) {
     const data = cache.deleteKeys({ keys: [`message:${message_id}`] });
     const message = `Deleted message with id:${message_id}`;
     respond(req, res).ok({ message, data })
+  } catch (error) {
+    handleError(req, res, error);
+  }
+}
+
+async function clear (req, res) {
+  try {
+    const { message } = await cache.clearAllData();
+    respond(req, res).ok({ message, data: {}})
   } catch (error) {
     handleError(req, res, error);
   }

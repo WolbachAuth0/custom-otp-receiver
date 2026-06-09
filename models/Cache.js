@@ -94,7 +94,9 @@ class Cache {
     logger.info('keys found: ', keys)
     if (keys.length > 0) {
       const response = await cache.deleteKeys({ keys })
-      logger.info(`deleted ${response} keys`)
+      const message = `deleted ${response} keys`
+      logger.info(message)
+      return { message }
     }
   }
 }

@@ -24,6 +24,9 @@ router
     validate(controller.schema.message),
     controller.create
   )
+  .delete(
+    controller.clear
+  )
 
 router
   .route('/:message_id')
