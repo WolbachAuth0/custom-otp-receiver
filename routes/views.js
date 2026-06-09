@@ -10,18 +10,6 @@ router
     controller.messages
   );
 
-router
-  .route('/tenants')
-  .get(
-    controller.tenants
-  );
-
-router
-  .route('/tenants/:tenant_name')
-  .get(
-    controller.messages
-  );
-
 // router
 //   .route('/docs')
 //   .get(
