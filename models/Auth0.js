@@ -1,4 +1,4 @@
-import { ManagementClient } from 'auth0';
+const { ManagementClient } = require('auth0');
 
 const options = {
   domain: process.env.AUTH0_DOMAIN,
