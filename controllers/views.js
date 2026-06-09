@@ -4,50 +4,41 @@ const { httpCodes } = require('../middleware/responseFormatter');
 
 module.exports = {
   messages,
-  tenants,
   // docs,
   // specification
 }
 
-async function tenants (req, res) {
-  try {
-    // fetch sms messages from queue
-    const found = await getMessagesFromCache();
-
-    const tenants = [...new Set(found.map(m => m.tenant))]
-
-    // send data to template and render
-    const data = {
-      tenants
-    }
-    res.render('tenants', data);
-  } catch (error) {
-    handleError(req, res, error);
-  }
-}
-
 async function messages (req, res) {
   try {
-    // fetch sms messages from queue
-    const found = await getMessagesFromCache();
-
-    let messages = []
-    if (req?.params?.tenant_name) {
-      const tenant_name = req.params.tenant_name;
-      messages = found.filter(m => m.tenant == tenant_name);
-    } else {
-      messages = found;
-    }
-
-    // send data to template and render
-    const data = {
-      messages
-    }
-    res.render('messages', data);
+    
+    res.redirect(301, 'https://otp-message-receiver-508e7995fc11.herokuapp.com')
   } catch (error) {
     handleError(req, res, error);
   }
 }
+
+// async function messages (req, res) {
+//   try {
+//     // fetch sms messages from queue
+//     const found = await getMessagesFromCache();
+
+//     let messages = []
+//     if (req?.params?.tenant_name) {
+//       const tenant_name = req.params.tenant_name;
+//       messages = found.filter(m => m.tenant == tenant_name);
+//     } else {
+//       messages = found;
+//     }
+
+//     // send data to template and render
+//     const data = {
+//       messages
+//     }
+//     res.render('messages', data);
+//   } catch (error) {
+//     handleError(req, res, error);
+//   }
+// }
 
 // function docs (req, res) {
 //   res.sendFile(path.join(__dirname, './../views/redoc.html'))
