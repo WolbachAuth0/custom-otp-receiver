@@ -20,26 +20,29 @@ module.exports = {
       client_metadata: {
         user_id,
         name,
-      },
-      // token_quota: {
-      //   client_credentials: {
-      //     enforce: true,
-      //     per_day?: 50
-      //   }
-      // },
-      // callbacks: [],
-      // sso_disabled: false,
-      // cross_origin_auth: false,
-      // custom_login_page_on: true,
+      }
     }
-
+    // create the client and grant it permissions
     const client = await management.clients.create(params)
     const grants = await createGrant({ client_id: client.client_id,  })
     
-    const data = Object.assign(client, { grants })
+    // return the data
     const payload = {
       message: `Created new OTP message client for user ${user_id}`,
-      data 
+      data: {
+        tenant: client.tenant,
+        name: client.name,
+        description: client.description,
+        logo_uri: client.logo_uri,
+        metadata: client.client_metadata,
+        credentials: {
+          grant_types: client.grant_types,
+          audience: grants.audience,
+          scope: grants.scope,
+          client_id: client.client_id,
+          client_secret: client.client_secret
+        }
+      }
     }
     return payload
 
@@ -61,15 +64,15 @@ module.exports = {
     const app_metadata = user.app_metadata;
 
     // get the list of the user's m2m clients. if none found, a new empty array
-    const userClients = app_metadata?.m2m_clients && Array.isArray(app_metadata.m2m_clients) ? app_metadata.m2m_clients : [];
+    const userClients = app_metadata?.otp_clients && Array.isArray(app_metadata.otp_clients) ? app_metadata.otp_clients : [];
     // make a list of the client_ids found in the user's clients
     const userClientIDs = userClients.map(x => x.client_id);
     
-    // push the new client into the user.app_metadata.m2m_clients array ...
+    // push the new client into the user.app_metadata.otp_clients array ...
     if (!userClientIDs.includes(client_id)) {
       // but only if it's not a duplicate ...
       userClients.push({ client_id, name });
-      app_metadata.m2m_clients = userClients;
+      app_metadata.otp_clients = userClients;
     }
     // update the user's app_metadata
     const response = await management.users.update({ id: user_id }, { app_metadata: app_metadata });
@@ -184,8 +187,8 @@ module.exports = {
   //   let user = await this.api.users.get({ id: user_id })
 
   //   // let app_metadata = user.app_metadata
-  //   // const m2m_clients = app_metadata?.m2m_clients && Array.isArray(app_metadata.m2m_clients) ? app_metadata.m2m_clients : []
-  //   // app_metadata.m2m_clients = m2m_clients
+  //   // const otp_clients = app_metadata?.otp_clients && Array.isArray(app_metadata.otp_clients) ? app_metadata.otp_clients : []
+  //   // app_metadata.otp_clients = otp_clients
   //   return user.app_metadata
   // }
 
@@ -193,7 +196,7 @@ module.exports = {
   //   // get the user's app_metadata
   //   const app_metadata = await this.getUserAppMetadata({ user_id })
   //   // filter out the client to be removed
-  //   app_metadata.m2m_clients = app_metadata.m2m_clients.filter(x => x.client_id !== client_id)
+  //   app_metadata.otp_clients = app_metadata.otp_clients.filter(x => x.client_id !== client_id)
   //   // update the user app_metadata
   //   return await this.api.updateAppMetadata({ id: user_id }, app_metadata)
   // }
