@@ -30,6 +30,7 @@ module.exports = {
     const payload = {
       message: `Created new OTP message client for user ${user_id}`,
       data: {
+        client_id: client.client_id,
         tenant: client.tenant,
         name: client.name,
         description: client.description,
