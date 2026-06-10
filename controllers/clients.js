@@ -6,7 +6,7 @@ const client = require('./../models/Client')
 
 module.exports = {
   createM2MClient,
-  listM2MClients,
+  getClientsOfUser,
   getM2MClientById,
   deleteM2MClientById,
   schemas: {}
@@ -26,10 +26,7 @@ async function createM2MClient (req, res, next) {
     const { message, data } = await client.create({ user_id, name })
 
     // then update user metadata ...
-    const item = {
-      client_id: data.client_id,
-      name
-    }
+    const item = { client_id: data.client_id, name }
     await client.addClientToUser({ user_id }, item)
 
     // respond with new client data first ...
@@ -39,15 +36,14 @@ async function createM2MClient (req, res, next) {
   }
 }
 
-async function listM2MClients (req, res, next) {
-  const user_id = req.query.user_id || req.user.sub || null
-  const per_page = req.query.per_page ? parseInt(req.query.per_page) : 10
-  const page = req.query.page ? parseInt(req.query.page) : 0
-
-  const client = new Client()
-  const payload = await client.listAll({ per_page, page }, user_id)
-  const json = responseFormatter(req, res, payload)
-  res.status(payload.status).json(json)
+async function getClientsOfUser (req, res, next) {
+  try {
+    const user_id = req.params.user_id
+    const { message, data } = await client.getClientsOfUser(user_id)
+    respond(req, res).ok({ message, data });
+  } catch (error) {
+    handleError(req, res, error);
+  }
 }
 
 async function getM2MClientById (req, res, next) {

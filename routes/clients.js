@@ -14,22 +14,25 @@ module.exports = router
 
 router.route('/')
   .all(verifyJWT)
-  .get(
-    checkJWTScopes(['read:clients'], options),
-    controller.listM2MClients
-  )
   .post(
     checkJWTScopes(['create:clients'], options),
     // schemaValidator(),
     controller.createM2MClient
   )
 
-router.route('/:client_id')
-  .all(verifyJWT)  
+router.route('/user/:user_id')
+  .all(verifyJWT)
   .get(
     checkJWTScopes(['read:clients'], options),
-    controller.getM2MClientById
+    controller.getClientsOfUser
   )
+
+router.route('/:client_id')
+  .all(verifyJWT)  
+  // .get(
+  //   checkJWTScopes(['read:clients'], options),
+  //   controller.getM2MClientById
+  // )
   .delete(
     checkJWTScopes(['delete:clients'], options),
     controller.deleteM2MClientById

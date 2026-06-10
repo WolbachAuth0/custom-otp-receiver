@@ -2,7 +2,8 @@ const management = require('./Auth0')
 
 module.exports = {
   create,
-  addClientToUser
+  addClientToUser,
+  getClientsOfUser
 }
 
   // CRUD the M2M Clients
@@ -80,59 +81,13 @@ module.exports = {
     return response
   }
 
-
-  // async function listAll ({ per_page, page }, user_id) {
-  //   const startIdx = page * per_page
-  //   const stopIdx = startIdx + per_page - 1
-  //   try {
-  //     let pageCount = 0
-  //     let stillMoreClients = true
-  //     let clients = []
-  //     while (stillMoreClients && pageCount < 100) {
-  //       const response = await this.api.getClients({ per_page: 100, page: pageCount, include_totals: true })
-  //       clients.push(...response.clients)
-  //       pageCount++
-  //       stillMoreClients = clients.length < response.total
-  //     }
-      
-  //     const data = clients
-  //       .filter(x => {
-  //         const isM2M = x.app_type == 'non_interactive'
-  //         const clientUser = x?.client_metadata?.user_id
-  //         return isM2M && clientUser
-  //       })
-  //       .filter(x => {
-  //         if (user_id) {
-  //           return x.client_metadata.user_id == user_id
-  //         } else {
-  //           return true
-  //         }
-  //       })
-  //       .map(x => {
-  //         return { 
-  //           tenant: x.tenant,
-  //           name: x.name,
-  //           client_id: x.client_id,
-  //           client_secret: x.client_secret,
-  //           jwt_configuration: x.jwt_configuration,
-  //           token_endpoint_auth_method: x.token_endpoint_auth_method,
-  //           app_type: x.app_type,
-  //           grant_types: x.grant_types,
-  //           client_metadata: x.client_metadata
-  //         }
-  //       })
-  //       .slice(startIdx, stopIdx)
-      
-  //     const payload = {
-  //       status: 200,
-  //       message: `Found ${data.length} M2M clients matching query.`,
-  //       data 
-  //     }
-  //     return payload
-  //   } catch (error) {
-  //     return errorHandler(error)
-  //   }
-  // }
+  async function getClientsOfUser (user_id) {    
+    const user = await management.users.get(user_id);
+    const data = user?.app_metadata?.otp_clients || [];
+    const message = `Found ${data.length} OTP clients owned by user ${user_id}.`
+    const payload = { message, data }
+    return payload
+  }
 
   // async function read ({ client_id }) {
   //   try {
