@@ -7,7 +7,7 @@ module.exports = {
 }
 
   // CRUD the M2M Clients
-  async function create ({ user_id, name }) {
+  async function create ({ user_id, name, description }) {
     const params = {
       name: `${name}`,
       description: `OTP Message Client for user ${user_id}`,
@@ -21,11 +21,12 @@ module.exports = {
       client_metadata: {
         user_id,
         name,
+        description
       }
     }
     // create the client and grant it permissions
     const client = await management.clients.create(params)
-    const grants = await createGrant({ client_id: client.client_id,  })
+    const grants = await createGrant({ client_id: client.client_id })
     
     // return the data
     const payload = {
@@ -60,7 +61,7 @@ module.exports = {
     return grants
   }
 
-  async function addClientToUser ({ user_id, }, { client_id, name }) {
+  async function addClientToUser ({ user_id, }, { client_id, name, description }) {
     // get the user's app_metadata
     const user = await management.users.get(user_id);
     const app_metadata = user.app_metadata;
@@ -73,7 +74,7 @@ module.exports = {
     // push the new client into the user.app_metadata.otp_clients array ...
     if (!userClientIDs.includes(client_id)) {
       // but only if it's not a duplicate ...
-      userClients.push({ client_id, name });
+      userClients.push({ client_id, name, description });
       app_metadata.otp_clients = userClients;
     }
     // update the user's app_metadata

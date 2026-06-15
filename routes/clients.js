@@ -16,7 +16,7 @@ router.route('/')
   .all(verifyJWT)
   .post(
     checkJWTScopes(['create:clients'], options),
-    // schemaValidator(),
+    schemaValidator(controller.schema.client),
     controller.createM2MClient
   )
 

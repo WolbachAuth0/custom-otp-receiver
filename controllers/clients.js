@@ -9,7 +9,19 @@ module.exports = {
   getClientsOfUser,
   getM2MClientById,
   deleteM2MClientById,
-  schemas: {}
+  schema: {
+    client: {
+      type: 'object',
+      required: [
+        'user_id', 'name'
+      ],
+      properties: {
+        user_id: { type: 'string' },
+        name: { type: 'string' },
+        description: { type: 'string' },
+      }
+    }
+  }
 }
 
 /**
@@ -23,10 +35,10 @@ async function createM2MClient (req, res, next) {
   try {
     const user_id = req.body.user_id;
     const name = `OTP-client:${req.body.name}`;
-    const { message, data } = await client.create({ user_id, name })
+    const { message, data } = await client.create({ user_id, name, description })
 
     // then update user metadata ...
-    const item = { client_id: data.client_id, name }
+    const item = { client_id: data.client_id, name, description }
     await client.addClientToUser({ user_id }, item)
 
     // respond with new client data first ...
