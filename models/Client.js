@@ -9,7 +9,7 @@ module.exports = {
   // CRUD the M2M Clients
   async function create ({ user_id, name, description }) {
     const params = {
-      name: `${name}`,
+      name: `OTP Client:${name}`,
       description: `OTP Message Client for user ${user_id}`,
       logo_uri: 'https://raw.githubusercontent.com/WolbachAuth0/auth0-m2m-demo/main/public/api-icon.png',
       allowed_clients: [],

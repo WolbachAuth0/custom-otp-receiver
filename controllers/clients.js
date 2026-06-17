@@ -34,7 +34,8 @@ module.exports = {
 async function createM2MClient (req, res, next) {
   try {
     const user_id = req.body.user_id;
-    const name = `OTP-client:${req.body.name}`;
+    const name = req.body.name;
+    const description = req.body.description;
     const { message, data } = await client.create({ user_id, name, description })
 
     // then update user metadata ...
